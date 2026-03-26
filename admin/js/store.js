@@ -54,8 +54,12 @@ const Store = (() => {
   // ── Admin ──────────────────────────────────────────────────
   async function getAdmin() { 
     const snap = await _db.ref('settings/of_admin').once('value');
-    if (snap.exists()) return snap.val();
-    return { mobile: '8509597935', password: '', name: 'Shop Owner' }; 
+    const defaults = { mobile: '8509597935', password: '', name: 'Shop Owner' }; 
+    if (snap.exists()) {
+      const data = snap.val();
+      return { ...defaults, ...data }; // Merge defaults with database data
+    }
+    return defaults; 
   }
 
   async function updateAdmin(data) { 
@@ -115,6 +119,8 @@ const Store = (() => {
 
       window._loginError = 'Incorrect mobile or password.';
       console.error('✕ DB Fallback failed: Credentials mismatch.');
+      if (admin.mobile !== input) console.error('  -> Mobile mismatch: Expected', admin.mobile, 'but got', input);
+      if (admin.password !== password) console.error('  -> Password mismatch');
       return false;
     } catch (err) {
       console.error('Sign in critical failed:', err.message);
