@@ -50,7 +50,7 @@ const Store = (() => {
   async function getAdmin() { 
     const snap = await _db.ref('settings/of_admin').once('value');
     if (snap.exists()) return snap.val();
-    return { mobile: '8509597935', password: 'admin123', name: 'Shop Owner' }; 
+    return { mobile: '8509597935', password: '', name: 'Shop Owner' }; 
   }
 
   async function updateAdmin(data) { 
