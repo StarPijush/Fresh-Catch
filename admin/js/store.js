@@ -28,6 +28,11 @@ const Store = (() => {
       if (user) {
         localStorage.setItem('of_session', JSON.stringify({ loggedIn: true, ts: Date.now(), uid: user.uid }));
       } else {
+        // Fix: Don't overwrite if we have a manual DB session (admin_db_user)
+        try {
+          const current = JSON.parse(localStorage.getItem('of_session'));
+          if (current && current.loggedIn && current.uid === 'admin_db_user') return;
+        } catch(e) {}
         localStorage.setItem('of_session', JSON.stringify({ loggedIn: false }));
       }
     });
@@ -91,8 +96,16 @@ const Store = (() => {
 
       // 2. Fallback to Database Password (allows immediate login after OTP reset)
       const admin = await getAdmin();
+      
+      console.log('--- DB FALLBACK DIAGNOSTICS ---');
+      console.log('Expected Mobile:', admin.mobile);
+      console.log('Provided Mobile:', input);
+      console.log('Mobile Match:', admin.mobile === input);
+      console.log('Password Match:', admin.password === password);
+      if (admin.password === '') console.warn('Note: Admin password in DB is currently EMPTY.');
+
       if (admin.mobile === input && admin.password === password) {
-        console.log('Database Auth success');
+        console.log('✓ Database Auth success');
         // Force a session in localStorage even if Firebase Auth isn't active
         localStorage.setItem('of_session', JSON.stringify({ 
           loggedIn: true, ts: Date.now(), uid: 'admin_db_user' 
@@ -101,6 +114,7 @@ const Store = (() => {
       }
 
       window._loginError = 'Incorrect mobile or password.';
+      console.error('✕ DB Fallback failed: Credentials mismatch.');
       return false;
     } catch (err) {
       console.error('Sign in critical failed:', err.message);
