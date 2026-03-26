@@ -1,0 +1,14 @@
+node_modules/
+*.db
+.gemini/
+.agents/
+.vscode/
+.DS_Store
+dist/
+build/
+.env
+firebase-debug.log
+storage.rules
+firestore.rules
+firestore.indexes.json
+.firebase/

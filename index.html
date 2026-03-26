@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>OceanFresh — Premium Seafood</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════════
+     LOADER
+     ═══════════════════════════════════════════════════ -->
+  <div id="loader">
+    <div class="loader-wordmark">OceanFresh</div>
+    <div class="loader-sub">Premium Seafood · Jhargram, West Bengal</div>
+    <div class="loader-bar"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+     GLOBAL UI LAYER
+     ═══════════════════════════════════════════════════ -->
+
+  <!-- Toast -->
+  <div id="toast"></div>
+
+  <!-- Floating cart pill (Products page) -->
+  <div id="floating-cart" onclick="showPage('order')">
+    <span>🛒</span>
+    <span id="floating-cart-count">0</span>
+    <span style="letter-spacing:0.06em;">View Order</span>
+  </div>
+
+  <!-- WhatsApp support float -->
+  <div id="wa-float" onclick="openWhatsAppSupport()" title="Chat with us">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path
+        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+    </svg>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+     TOP NAVIGATION
+     ═══════════════════════════════════════════════════ -->
+  <header id="top-nav">
+    <div class="nav-logo" onclick="showPage('home')">OceanFresh</div>
+    <div class="nav-right">
+      <button class="nav-cart-btn" onclick="showPage('order')" aria-label="Cart">
+        🛒
+        <span class="nav-cart-count" id="nav-cart-count">0</span>
+      </button>
+      <button class="nav-menu-btn" id="menu-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════
+     NAV DRAWER
+     ═══════════════════════════════════════════════════ -->
+  <div id="nav-drawer">
+    <div class="drawer-link" onclick="showPage('home')">
+      Home <sup>01</sup>
+    </div>
+    <div class="drawer-link" onclick="showPage('products')">
+      Products <sup>02</sup>
+    </div>
+    <div class="drawer-link" onclick="showPage('order')">
+      Order <sup>03</sup>
+    </div>
+    <div class="drawer-link" onclick="showPage('contact')">
+      Contact <sup>04</sup>
+    </div>
+    <div class="drawer-footer">
+      © OceanFresh · Jhargram · Fresh since 2018
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+     HOME PAGE
+     ═══════════════════════════════════════════════════ -->
+  <div id="page-home" class="page active">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-noise"></div>
+      <div class="hero-grid"></div>
+      <div class="hero-content">
+        <div class="hero-eyebrow">Local Market · Jhargram · Est. 2018</div>
+        <h1 class="hero-title">
+          Ocean<br><em>Fresh</em><br>Delivered.
+        </h1>
+        <p class="hero-desc">
+          Premium seafood sourced every morning from our local market, delivered to your door within hours.
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-dark" onclick="showPage('products')">Shop Now</button>
+          <button class="btn btn-ghost" onclick="showPage('order')">View Order</button>
+        </div>
+      </div>
+      <div class="hero-scroll">
+        <div class="hero-scroll-line"></div>
+        <span>Scroll</span>
+      </div>
+    </section>
+
+    <!-- Ticker -->
+    <div class="ticker-wrap">
+      <div class="ticker-inner">
+        <span>Rohu</span><span>Katla</span><span>Pomfret</span>
+        <span>King Fish</span><span>Tiger Prawns</span><span>Live Crab</span>
+        <span>Hilsa</span><span>Bombil</span><span>Rawas</span>
+        <span>Rohu</span><span>Katla</span><span>Pomfret</span>
+        <span>King Fish</span><span>Tiger Prawns</span><span>Live Crab</span>
+        <span>Hilsa</span><span>Bombil</span><span>Rawas</span>
+      </div>
+    </div>
+
+    <!-- Featured Fish -->
+    <section class="section section-alt">
+      <div class="section-eyebrow reveal">Featured Selection</div>
+      <h2 class="section-title-lg reveal">Today's<br><em style="font-style:italic;">Finest</em></h2>
+      <div class="section-rule reveal"></div>
+      <div id="featured-cards" class="h-scroll" style="margin: 0 -24px;padding: 4px 24px 16px;"></div>
+      <div class="section-action reveal">
+        <button class="btn btn-ghost btn-sm" onclick="showPage('products')">See All Products →</button>
+      </div>
+    </section>
+
+    <!-- Fresh Catch table -->
+    <section class="section">
+      <div class="section-eyebrow reveal">Live Availability</div>
+      <h2 class="section-title-lg reveal">Today's<br>Fresh Catch</h2>
+      <div class="section-rule reveal"></div>
+      <div id="fresh-catch-list" style="margin-top:8px;"></div>
+      <div style="margin-top:24px;" class="reveal">
+        <button class="btn btn-outline-dark" onclick="showPage('products')">Order Now</button>
+      </div>
+    </section>
+
+    <!-- Why choose us -->
+    <section class="section section-sand">
+      <div class="section-eyebrow reveal">Our Promise</div>
+      <h2 class="section-title-lg reveal">Why<br>OceanFresh</h2>
+      <div class="section-rule reveal"></div>
+      <div class="why-grid" style="margin-top:24px;">
+        <div class="why-card reveal">
+          <div class="why-icon">🐟</div>
+          <div class="why-name">Daily Fresh Catch</div>
+          <div class="why-desc">Sourced every morning directly from local Jhargram markets before 5AM.</div>
+        </div>
+        <div class="why-card reveal" style="transition-delay:0.1s">
+          <div class="why-icon">🧼</div>
+          <div class="why-name">Hygienic Processing</div>
+          <div class="why-desc">FSSAI certified facility. Cold chain maintained end to end.</div>
+        </div>
+        <div class="why-card reveal" style="transition-delay:0.15s">
+          <div class="why-icon">🚚</div>
+          <div class="why-name">2–3 Hour Delivery</div>
+          <div class="why-desc">From our dock to your door. Live tracking via WhatsApp.</div>
+        </div>
+        <div class="why-card reveal" style="transition-delay:0.2s">
+          <div class="why-icon">⚖️</div>
+          <div class="why-name">Honest Weights</div>
+          <div class="why-desc">Calibrated digital scales. You pay only for what you receive.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Delivery Area -->
+    <section class="section section-alt">
+      <div class="section-eyebrow reveal">Service Area</div>
+      <h2 class="section-title-lg reveal">Deliver<br>to You?</h2>
+      <div class="section-rule reveal"></div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.5);line-height:1.7;margin-bottom:24px;" class="reveal">
+        Enter your Jhargram PIN code to check if we deliver to your neighbourhood.
+      </p>
+      <div class="pin-wrap reveal">
+        <input type="number" id="pincode-input" class="pin-input" placeholder="400 001" maxlength="6"
+          oninput="if(this.value.length>6)this.value=this.value.slice(0,6)">
+        <button class="btn btn-dark" onclick="checkDelivery()">Check</button>
+      </div>
+      <div id="pincode-result" class="pin-result"></div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="section" style="text-align:center;padding:80px 24px;">
+      <div class="section-eyebrow reveal" style="justify-content:center;display:flex;">Ready to order?</div>
+      <h2 class="section-title-lg reveal" style="margin-bottom:8px;">
+        Fresh fish,<br><em style="font-style:italic;">one tap away.</em>
+      </h2>
+      <div class="section-rule reveal" style="margin:20px auto;"></div>
+      <p style="font-size:0.8rem;color:var(--muted);max-width:260px;margin:0 auto 32px;line-height:1.7;" class="reveal">
+        Place your order in under a minute via WhatsApp.
+      </p>
+      <button class="btn btn-dark btn-wa-cta reveal" onclick="showPage('order')"
+        style="font-size:0.72rem;padding:14px 36px;border-radius:2px;background:var(--deep);color:var(--cream);">
+        Start Order →
+      </button>
+    </section>
+
+    <!-- About us -->
+    <section class="section" style="background: #f7f9fb; padding: 60px 24px;">
+      <div class="section-eyebrow reveal">About OceanFresh</div>
+      <h2 class="section-title-lg reveal">Trusted by families in Jhargram</h2>
+      <p style="max-width:680px;margin: 12px auto 24px;color:var(--muted);line-height:1.7;" class="reveal">
+        OceanFresh has been serving premium seafood since 2018 with a focus on freshness, hygiene and fast delivery.
+        We source directly from local fish markets and process orders in chilled conditions so you receive quality
+        seafood every time.
+      </p>
+      <div class="why-grid why-grid-about" style="max-width:700px;margin:0 auto;">
+        <div class="why-card reveal">
+          <div class="why-icon">✅</div>
+          <div class="why-name">Morning catch, same day</div>
+          <div class="why-desc">Picked daily and delivered within hours for peak freshness.</div>
+        </div>
+        <div class="why-card reveal" style="transition-delay:0.1s">
+          <div class="why-icon">🏅</div>
+          <div class="why-name">Quality assurance</div>
+          <div class="why-desc">Hand-inspected products with no preservatives, no stale stock.</div>
+        </div>
+        <div class="why-card reveal" style="transition-delay:0.2s">
+          <div class="why-icon">📦</div>
+          <div class="why-name">Fast delivery</div>
+          <div class="why-desc">2-3 hour delivery across our service areas.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="section" style="padding:60px 24px;">
+      <div class="section-eyebrow reveal">Customer Reviews</div>
+      <h2 class="section-title-lg reveal">What buyers say</h2>
+      <div class="review-grid" style="margin-top:24px;">
+        <div class="review-card reveal">
+          <p>“Great fish quality and quick delivery. Always on time and very fresh.”</p>
+          <div class="review-author">— Raju, Jhargram</div>
+        </div>
+        <div class="review-card reveal" style="transition-delay:0.06s">
+          <p>“Love the variety, and prices are fair. We order every week for the family.”</p>
+          <div class="review-author">— Shalini, Binpur</div>
+        </div>
+        <div class="review-card reveal" style="transition-delay:0.12s">
+          <p>“Friendly support via WhatsApp and they handled my location request smoothly.”</p>
+          <div class="review-author">— Amit, Gopiballavpur</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background:var(--ink);padding:32px 24px;">
+      <div
+        style="font-family:var(--font-display);font-size:1.4rem;font-weight:300;color:var(--cream);letter-spacing:0.08em;margin-bottom:12px;">
+        OceanFresh
+      </div>
+      <div style="font-size:0.68rem;color:rgba(245,240,232,0.3);letter-spacing:0.1em;line-height:2;">
+        Shop No. 12, Main Market<br>Jhargram, West Bengal 721507<br>hello@oceanfresh.in
+      </div>
+      <div
+        style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.07);font-size:0.6rem;color:rgba(245,240,232,0.2);letter-spacing:0.12em;">
+        © 2025 OceanFresh · All rights reserved
+      </div>
+    </footer>
+
+  </div><!-- /page-home -->
+
+  <!-- ═══════════════════════════════════════════════════
+     PRODUCTS PAGE
+     ═══════════════════════════════════════════════════ -->
+  <div id="page-products" class="page">
+
+    <!-- Sticky sub-header -->
+    <div class="page-header" style="top:56px;">
+      <div class="filter-scroll">
+        <div class="filter-chip active" onclick="filterProducts('all',this)">All</div>
+        <div class="filter-chip" onclick="filterProducts('fresh',this)">Fresh Fish</div>
+        <div class="filter-chip" onclick="filterProducts('sea',this)">Sea Fish</div>
+        <div class="filter-chip" onclick="filterProducts('prawns',this)">Prawns</div>
+        <div class="filter-chip" onclick="filterProducts('crabs',this)">Crabs</div>
+      </div>
+      <div class="search-wrap">
+        <input type="text" class="search-input" placeholder="Search fish…" oninput="searchProducts(this.value)">
+      </div>
+    </div>
+
+    <!-- Count label -->
+    <div id="prod-count-label"
+      style="padding:16px 20px 0;font-size:0.6rem;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase;">
+      0 Products Available
+    </div>
+
+    <div id="product-list" class="prod-list"></div>
+
+  </div><!-- /page-products -->
+
+  <!-- ═══════════════════════════════════════════════════
+     ORDER PAGE
+     ═══════════════════════════════════════════════════ -->
+  <div id="page-order" class="page">
+
+    <div class="order-header-inner">Your Order</div>
+    <div class="divider"></div>
+
+    <div class="order-wrap">
+      <!-- Cart items (rendered by JS) -->
+      <div id="cart-container"></div>
+
+      <!-- Total + form (shown when cart has items) -->
+      <div id="cart-total-section" style="display:none;">
+
+        <!-- Price summary -->
+        <div class="price-summary">
+          <div class="price-row"><span>Subtotal</span><span id="subtotal-val">₹0</span></div>
+          <div class="price-row"><span>Delivery</span><span id="delivery-val" class="free">Free</span></div>
+          <div class="price-row total"><span>Total</span><span id="total-val">₹0</span></div>
+        </div>
+
+        <!-- Customer details -->
+        <div class="order-section-label">Your Details</div>
+        <div style="padding-top:16px;">
+          <div class="form-field">
+            <label class="form-label">Full Name</label>
+            <input type="text" id="cust-name" class="form-control" placeholder="Rahul Sharma">
+          </div>
+          <div class="form-field">
+            <label class="form-label">Phone Number</label>
+            <input type="tel" id="cust-phone" class="form-control" placeholder="+91 98765 43210">
+          </div>
+          <div class="form-field">
+            <label class="form-label">Delivery Address</label>
+            <textarea id="cust-address" class="form-control" rows="3"
+              placeholder="Flat / Building / Street / Area / City" style="resize:none;"></textarea>
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="order-section-label">Location</div>
+        <div style="padding-top:16px;margin-bottom:20px;">
+          <button class="location-btn" onclick="getLocation()">📍 &nbsp;Use My Current Location</button>
+          <div id="location-status"></div>
+          <div id="map-preview"></div>
+        </div>
+
+        <!-- WhatsApp -->
+        <div class="order-section-label">Place Order</div>
+        <div style="padding-top:16px;margin-bottom:8px;">
+          <button class="btn-wa-full" onclick="placeOrder()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg>
+            Send Order via WhatsApp
+          </button>
+          <div style="text-align:center;font-size:0.65rem;color:var(--muted);margin-top:8px;letter-spacing:0.06em;">
+            Your order is sent securely to our shop WhatsApp
+          </div>
+        </div>
+
+      </div><!-- /cart-total-section -->
+    </div>
+
+  </div><!-- /page-order -->
+
+  <!-- ═══════════════════════════════════════════════════
+     CONTACT PAGE
+     ═══════════════════════════════════════════════════ -->
+  <div id="page-contact" class="page">
+
+    <div class="contact-hero">
+      <div class="hero-noise"></div>
+      <div class="section-eyebrow" style="margin-bottom:20px;">Get in Touch</div>
+      <h2 class="contact-title">Let's Talk<br><em>Fresh Fish</em></h2>
+      <p class="contact-sub" style="margin-top:12px;">We're at the docks before sunrise, every day.</p>
+    </div>
+
+    <div class="contact-list">
+      <a href="tel:+919876543210" class="contact-item" style="color:inherit;">
+        <div class="contact-item-left">
+          <div class="contact-item-icon">📱</div>
+          <div>
+            <div class="contact-item-title">Call Us</div>
+            <div class="contact-item-value">+91 98765 43210</div>
+          </div>
+        </div>
+        <div class="contact-item-arrow">›</div>
+      </a>
+
+      <div class="contact-item" onclick="openWhatsAppSupport()">
+        <div class="contact-item-left">
+          <div class="contact-item-icon" style="background:#dcfce7;">💬</div>
+          <div>
+            <div class="contact-item-title">WhatsApp</div>
+            <div class="contact-item-value" style="color:#25D366;">Chat now</div>
+          </div>
+        </div>
+        <div class="contact-item-arrow">›</div>
+      </div>
+
+      <div class="contact-item" style="cursor:default;">
+        <div class="contact-item-left">
+          <div class="contact-item-icon">🕐</div>
+          <div>
+            <div class="contact-item-title">Shop Hours</div>
+            <div class="contact-item-value">Mon–Sat · 6AM – 9PM</div>
+            <div class="contact-item-value">Sunday · 6AM – 2PM</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-item" style="cursor:default;">
+        <div class="contact-item-left">
+          <div class="contact-item-icon">📍</div>
+          <div>
+            <div class="contact-item-title">Address</div>
+            <div class="contact-item-value">Shop No. 12, Fish Market</div>
+            <div class="contact-item-value">Jhargram, West Bengal 721507</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delivery areas -->
+    <div style="padding:0 20px 32px;">
+      <div
+        style="font-size:0.6rem;letter-spacing:0.24em;text-transform:uppercase;font-weight:600;color:var(--muted);padding:20px 0 16px;border-bottom:1px solid rgba(0,0,0,0.07);margin-bottom:16px;">
+        Delivery Areas
+      </div>
+      <div class="area-chips">
+        <span class="area-chip">Jamboni</span>
+        <span class="area-chip">Binpur</span>
+        <span class="area-chip">Gopiballavpur</span>
+        <span class="area-chip">Belpahari</span>
+        <span class="area-chip">Nayagram</span>
+        <span class="area-chip">Sankrail</span>
+        <span class="area-chip">Rohini</span>
+        <span class="area-chip">Silda</span>
+        <span class="area-chip">Gidhni</span>
+        <span class="area-chip">Lodhasuli</span>
+        <span class="area-chip" style="background:var(--sand);color:var(--muted);">+ More</span>
+      </div>
+    </div>
+
+    <!-- Contact footer -->
+    <div style="background:var(--deep);padding:32px 24px;text-align:center;">
+      <div
+        style="font-family:var(--font-display);font-size:1.3rem;font-weight:300;color:var(--cream);letter-spacing:0.1em;margin-bottom:8px;">
+        OceanFresh
+      </div>
+      <div style="font-size:0.65rem;color:rgba(245,240,232,0.3);letter-spacing:0.1em;">
+        Fresh Seafood · Jhargram, West Bengal · Est. 2018
+      </div>
+    </div>
+
+  </div><!-- /page-contact -->
+
+  <!-- ═══════════════════════════════════════════════════
+     BOTTOM TAB BAR
+     ═══════════════════════════════════════════════════ -->
+  <nav id="bottom-nav">
+    <div class="tab-item active" id="tab-home" onclick="showPage('home')">
+      <span class="tab-icon">⌂</span>
+      <span>Home</span>
+    </div>
+    <div class="tab-item" id="tab-products" onclick="showPage('products')">
+      <span class="tab-icon">🐟</span>
+      <span>Products</span>
+    </div>
+    <div class="tab-item" id="tab-order" onclick="showPage('order')">
+      <span class="tab-icon">🛒</span>
+      <span>Order</span>
+      <div class="tab-badge" id="tab-order-badge">0</div>
+    </div>
+    <div class="tab-item" id="tab-contact" onclick="showPage('contact')">
+      <span class="tab-icon">✉</span>
+      <span>Contact</span>
+    </div>
+  </nav>
+
+  <!-- Firebase (Compatibility Mode) -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script>
+
+  const firebaseConfig = {
+     apiKey: "AIzaSyBuO2qcc1FC6emeDakW0t_axK5UidrxpgU",
+     authDomain: "freshcatch-5335b.firebaseapp.com",
+     databaseURL: "https://freshcatch-5335b-default-rtdb.firebaseio.com",
+     projectId: "freshcatch-5335b",
+     storageBucket: "freshcatch-5335b.firebasestorage.app",
+     messagingSenderId: "178320052496",
+     appId: "1:178320052496:web:6d99a14de13fbf0a029595",
+     measurementId: "G-BQ8H0V83GX"
+};
+   
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <!-- Scripts -->
+  <script src="admin/js/store.js"></script>
+  <script src="app.js"></script>
+
+</body>
+
+</html>

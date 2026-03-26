@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+  <title>OceanFresh · Admin</title>
+  <link rel="stylesheet" href="css/admin.css?v=6">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     AUTH SHELL  (Login / OTP / Reset Password)
+     ═══════════════════════════════════════════════════ -->
+<div id="auth-shell" class="auth-shell">
+  <div class="auth-bg"></div>
+  <div class="auth-grid"></div>
+
+  <!-- ── Login Screen ── -->
+  <div id="screen-login" class="auth-screen auth-card">
+    <div class="auth-logo">Ocean<span>Fresh</span></div>
+    <div class="auth-eyebrow">Admin Panel · Secure Login</div>
+    <h2 class="auth-title">Welcome back</h2>
+    <p class="auth-sub">Sign in with your registered mobile number and password.</p>
+
+    <div id="login-error" class="auth-error"></div>
+
+    <div class="form-grp">
+      <label class="form-lbl">Mobile Number</label>
+      <div class="form-inp-prefix">
+        <span class="prefix">+91</span>
+        <input id="login-mobile" class="form-inp" type="tel" placeholder="9876543210" maxlength="10">
+      </div>
+    </div>
+    <div class="form-grp">
+      <label class="form-lbl">Password</label>
+      <div class="form-inp-password">
+        <input id="login-password" class="form-inp" type="password" placeholder="Enter password">
+        <button type="button" class="btn-eye" onclick="togglePassword('login-password', this)">👁️</button>
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-full btn-lg" style="margin-top:8px;" onclick="doLogin()">
+      Sign In →
+    </button>
+
+    <div style="text-align:center;">
+      <span class="auth-link" onclick="showAuthScreen('screen-forgot')">Forgot password?</span>
+    </div>
+
+  </div>
+
+  <!-- ── Forgot Password Screen ── -->
+  <div id="screen-forgot" class="auth-screen auth-card" style="display:none;">
+    <div class="auth-logo">Ocean<span>Fresh</span></div>
+    <div class="auth-eyebrow">Password Recovery</div>
+    <h2 class="auth-title">Reset password</h2>
+    <p class="auth-sub">Enter your registered mobile number to receive a one-time password.</p>
+
+    <div id="forgot-error" class="auth-error"></div>
+
+    <div class="form-grp">
+      <label class="form-lbl">Registered Mobile Number</label>
+      <div class="form-inp-prefix">
+        <span class="prefix">+91</span>
+        <input id="forgot-mobile" class="form-inp" type="tel" placeholder="9876543210" maxlength="10">
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-full btn-lg" style="margin-top:8px;" onclick="doForgotSendOTP()">
+      Send OTP →
+    </button>
+    <div style="text-align:center;">
+      <span class="auth-link" onclick="showAuthScreen('screen-login')">← Back to login</span>
+    </div>
+  </div>
+
+  <!-- ── OTP Screen ── -->
+  <div id="screen-otp" class="auth-screen auth-card" style="display:none;">
+    <div class="auth-logo">Ocean<span>Fresh</span></div>
+    <div class="auth-eyebrow">Two-Step Verification</div>
+    <h2 class="auth-title">Enter OTP</h2>
+    <p class="auth-sub">
+      A 6-digit OTP has been sent to <strong style="color:var(--cream);" id="otp-mobile-display">****</strong>.
+      Check your SMS inbox.
+    </p>
+
+    <div id="otp-error" class="auth-error"></div>
+
+    <div class="otp-row" style="margin:8px 0 16px;">
+      <input class="otp-input" type="tel" maxlength="1" inputmode="numeric" id="otp-input-1" autocomplete="one-time-code">
+      <input class="otp-input" type="tel" maxlength="1" inputmode="numeric">
+      <input class="otp-input" type="tel" maxlength="1" inputmode="numeric">
+      <input class="otp-input" type="tel" maxlength="1" inputmode="numeric">
+      <input class="otp-input" type="tel" maxlength="1" inputmode="numeric">
+      <input class="otp-input" type="tel" maxlength="1" inputmode="numeric">
+    </div>
+
+    <button class="btn btn-primary btn-full btn-lg" onclick="doVerifyOTP()">Verify OTP →</button>
+    <p class="otp-note">
+      Didn't receive it?
+      <span class="auth-link" onclick="doForgotSendOTP()">Resend OTP</span>
+    </p>
+    <div style="text-align:center;">
+      <span class="auth-link" onclick="showAuthScreen('screen-login')">← Back to login</span>
+    </div>
+  </div>
+
+  <!-- ── Reset Password Screen ── -->
+  <div id="screen-reset" class="auth-screen auth-card" style="display:none;">
+    <div class="auth-logo">Ocean<span>Fresh</span></div>
+    <div class="auth-eyebrow">Set New Password</div>
+    <h2 class="auth-title">New password</h2>
+    <p class="auth-sub">Choose a strong password. Minimum 6 characters.</p>
+
+    <div id="reset-error" class="auth-error"></div>
+
+    <div class="form-grp">
+      <label class="form-lbl">New Password</label>
+      <div class="form-inp-password">
+        <input id="reset-pass1" class="form-inp" type="password" placeholder="New password">
+        <button type="button" class="btn-eye" onclick="togglePassword('reset-pass1', this)">👁️</button>
+      </div>
+    </div>
+    <div class="form-grp">
+      <label class="form-lbl">Confirm Password</label>
+      <div class="form-inp-password">
+        <input id="reset-pass2" class="form-inp" type="password" placeholder="Confirm password">
+        <button type="button" class="btn-eye" onclick="togglePassword('reset-pass2', this)">👁️</button>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-full btn-lg" style="margin-top:8px;" onclick="doResetPassword()">
+      Update Password →
+    </button>
+  </div>
+
+</div><!-- /auth-shell -->
+
+<!-- ═══════════════════════════════════════════════════
+     ADMIN APP
+     ═══════════════════════════════════════════════════ -->
+<div id="admin-app">
+
+  <!-- Sidebar -->
+  <aside id="sidebar">
+    <div class="sb-head">
+      <div class="sb-logo">Ocean<span>Fresh</span></div>
+      <div class="sb-role">Admin Panel</div>
+    </div>
+
+    <nav class="sb-nav">
+      <div class="sb-section-label">Main</div>
+      <div class="sb-item" id="nav-dashboard" onclick="navigateTo('dashboard')">
+        <span class="sb-item-icon">▦</span> Dashboard
+      </div>
+
+      <div class="sb-section-label">Manage</div>
+      <div class="sb-item" id="nav-products" onclick="navigateTo('products')">
+        <span class="sb-item-icon">🐟</span> Products
+      </div>
+      <div class="sb-item" id="nav-orders" onclick="navigateTo('orders')">
+        <span class="sb-item-icon">📦</span> Orders
+        <span class="sb-badge" id="pending-badge" style="display:none;">0</span>
+      </div>
+
+      <div class="sb-section-label">System</div>
+      <div class="sb-item" id="nav-settings" onclick="navigateTo('settings')">
+        <span class="sb-item-icon">⚙</span> Settings
+      </div>
+      <div class="sb-item" onclick="window.open('../index.html','_blank')">
+        <span class="sb-item-icon">🌐</span> View Store
+      </div>
+    </nav>
+
+    <div class="sb-foot">
+      <div class="sb-user">
+        <div class="sb-avatar" id="sb-initials">OW</div>
+        <div>
+          <div class="sb-username" id="sb-name">Shop Owner</div>
+          <div class="sb-mobile" id="sb-mobile">9876543210</div>
+        </div>
+      </div>
+      <button class="sb-logout" onclick="doLogout()">Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- Sidebar overlay (mobile) -->
+  <div id="sidebar-overlay"></div>
+
+  <!-- Main -->
+  <div id="main-wrap">
+
+    <!-- Top bar -->
+    <div id="topbar">
+      <button id="topbar-hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="topbar-title" id="topbar-title">Dashboard</div>
+      <div class="topbar-right">
+        <div class="topbar-date" id="topbar-date"></div>
+        <div class="topbar-dot" title="Live"></div>
+      </div>
+    </div>
+
+    <!-- Page container -->
+    <div id="page-container">
+
+      <!-- ─────────────────────────────────────────────
+           DASHBOARD PANEL
+           ───────────────────────────────────────────── -->
+      <div id="panel-dashboard" class="admin-panel">
+        <div class="panel-header">
+          <div class="panel-eyebrow">OceanFresh</div>
+          <h1 class="panel-title">Dashboard</h1>
+          <p class="panel-sub">Your shop at a glance — today's performance and trends.</p>
+        </div>
+
+        <!-- Stat cards -->
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-card-label">Today's Sales</div>
+            <div class="stat-card-value" id="stat-today-sales">—</div>
+            <div class="stat-card-delta delta-neu">orders today</div>
+            <div class="stat-card-icon">🛒</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Today's Income</div>
+            <div class="stat-card-value" id="stat-today-income">—</div>
+            <div class="stat-card-delta delta-up">↑ revenue</div>
+            <div class="stat-card-icon">💰</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">This Week</div>
+            <div class="stat-card-value" id="stat-week-income">—</div>
+            <div class="stat-card-delta delta-neu">7-day income</div>
+            <div class="stat-card-icon">📅</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Pending Orders</div>
+            <div class="stat-card-value" id="stat-pending">—</div>
+            <div class="stat-card-delta delta-down">need action</div>
+            <div class="stat-card-icon">⏳</div>
+          </div>
+        </div>
+
+        <!-- Second row stats -->
+        <div class="stat-grid" style="margin-bottom:24px;">
+          <div class="stat-card">
+            <div class="stat-card-label">Total Orders</div>
+            <div class="stat-card-value" id="stat-total-orders">—</div>
+            <div class="stat-card-delta delta-neu">all time</div>
+            <div class="stat-card-icon">📊</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Total Revenue</div>
+            <div class="stat-card-value" id="stat-total-income">—</div>
+            <div class="stat-card-delta delta-up">all time</div>
+            <div class="stat-card-icon">📈</div>
+          </div>
+          <div class="stat-card" style="grid-column:span 2;">
+            <div class="stat-card-label">Products Active</div>
+            <div class="stat-card-value" id="stat-products">—</div>
+            <div class="stat-card-delta delta-neu">available / total</div>
+            <div class="stat-card-icon">🐟</div>
+          </div>
+        </div>
+
+        <!-- Chart -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">7-Day Performance</div>
+            <div class="chart-toggle">
+              <button class="chart-toggle-btn active" data-mode="income" onclick="setChartMode('income',this)">Income</button>
+              <button class="chart-toggle-btn" data-mode="sales" onclick="setChartMode('sales',this)">Sales</button>
+            </div>
+          </div>
+          <div class="chart-bars" id="chart-bars"></div>
+        </div>
+
+        <!-- Two column: top products + recent orders -->
+        <div style="display:grid;grid-template-columns:1fr;gap:16px;">
+          <div class="table-card">
+            <div class="table-head">
+              <div class="table-head-title">Top Products · This Month</div>
+            </div>
+            <div style="padding:0 16px;" id="top-products-list"></div>
+          </div>
+
+          <div class="table-card">
+            <div class="table-head">
+              <div class="table-head-title">Recent Orders</div>
+              <button class="btn btn-ghost btn-sm" onclick="navigateTo('orders')">View All</button>
+            </div>
+            <div class="table-row header-row">
+              <div class="col-id">Order ID</div>
+              <div class="col-cust">Customer</div>
+              <div class="col-total">Amount</div>
+              <div class="col-ostatus">Status</div>
+            </div>
+            <div id="recent-orders-list"></div>
+          </div>
+        </div>
+
+      </div><!-- /dashboard -->
+
+      <!-- ─────────────────────────────────────────────
+           PRODUCTS PANEL
+           ───────────────────────────────────────────── -->
+      <div id="panel-products" class="admin-panel">
+        <div class="panel-header">
+          <div class="panel-eyebrow">Inventory</div>
+          <h1 class="panel-title">Products</h1>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="flex-between" style="margin-bottom:12px;flex-wrap:wrap;gap:10px;">
+          <div class="search-bar" style="max-width:240px;">
+            <span class="search-bar-icon">🔍</span>
+            <input class="search-bar-inp" type="text" placeholder="Search products…" oninput="searchProducts(this.value)">
+          </div>
+          <button class="btn btn-primary" onclick="openAddModal()">+ Add Product</button>
+        </div>
+
+        <!-- Filter chips -->
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+          <button class="btn btn-sm prod-filter-btn active" onclick="setProdFilter('all',this)">All</button>
+          <button class="btn btn-sm prod-filter-btn btn-ghost" onclick="setProdFilter('fresh',this)">Fresh Fish</button>
+          <button class="btn btn-sm prod-filter-btn btn-ghost" onclick="setProdFilter('sea',this)">Sea Fish</button>
+          <button class="btn btn-sm prod-filter-btn btn-ghost" onclick="setProdFilter('prawns',this)">Prawns</button>
+          <button class="btn btn-sm prod-filter-btn btn-ghost" onclick="setProdFilter('crabs',this)">Crabs</button>
+        </div>
+
+        <!-- Table -->
+        <div class="table-card">
+          <div class="table-head">
+            <div class="table-head-title" id="prod-count">— products</div>
+            <div style="font-size:0.65rem;color:var(--muted);">Available · Featured</div>
+          </div>
+          <div class="table-row header-row">
+            <div class="col-emoji"></div>
+            <div class="col-name">Product</div>
+            <div class="col-cat">Category</div>
+            <div class="col-price">Price</div>
+            <div class="col-status">Active</div>
+            <div class="col-feat">Featured</div>
+            <div class="col-actions">Actions</div>
+          </div>
+          <div id="products-tbody"></div>
+        </div>
+
+      </div><!-- /products -->
+
+      <!-- ─────────────────────────────────────────────
+           ORDERS PANEL
+           ───────────────────────────────────────────── -->
+      <div id="panel-orders" class="admin-panel">
+        <div class="panel-header">
+          <div class="panel-eyebrow">Order Management</div>
+          <h1 class="panel-title">Orders</h1>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="flex-between" style="margin-bottom:12px;flex-wrap:wrap;gap:10px;">
+          <div class="search-bar" style="max-width:240px;">
+            <span class="search-bar-icon">🔍</span>
+            <input class="search-bar-inp" type="text" placeholder="Search by name, ID…" oninput="searchOrders(this.value)">
+          </div>
+          <span id="order-count" style="font-size:0.72rem;color:var(--muted);">— orders</span>
+        </div>
+
+        <!-- Status filters -->
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+          <button class="btn btn-sm order-filter-btn active" onclick="setOrderFilter('all',this)">All</button>
+          <button class="btn btn-sm order-filter-btn btn-ghost" onclick="setOrderFilter('pending',this)">Pending</button>
+          <button class="btn btn-sm order-filter-btn btn-ghost" onclick="setOrderFilter('preparing',this)">Preparing</button>
+          <button class="btn btn-sm order-filter-btn btn-ghost" onclick="setOrderFilter('delivered',this)">Delivered</button>
+        </div>
+
+        <div class="table-card">
+          <div class="table-row header-row">
+            <div class="col-id">Order ID</div>
+            <div class="col-cust">Customer</div>
+            <div class="col-total">Amount</div>
+            <div class="col-ostatus">Status</div>
+            <div class="col-date">Date</div>
+          </div>
+          <div id="orders-tbody"></div>
+        </div>
+
+      </div><!-- /orders -->
+
+      <!-- ─────────────────────────────────────────────
+           SETTINGS PANEL
+           ───────────────────────────────────────────── -->
+      <div id="panel-settings" class="admin-panel">
+        <div class="panel-header">
+          <div class="panel-eyebrow">Configuration</div>
+          <h1 class="panel-title">Settings</h1>
+          <p class="panel-sub">Manage your account, password, and shop preferences.</p>
+        </div>
+
+        <!-- Profile -->
+        <div class="settings-card">
+          <div class="settings-card-head">
+            <span class="settings-card-head-icon">👤</span>
+            <span class="settings-card-head-title">Profile</span>
+          </div>
+          <div class="settings-card-body">
+            <div class="form-grp">
+              <label class="form-lbl">Your Name</label>
+              <input id="settings-name-val" class="form-inp" type="text" placeholder="Shop Owner">
+            </div>
+            <div class="form-grp">
+              <label class="form-lbl">Mobile Number (Login ID)</label>
+              <div class="form-inp-prefix">
+                <span class="prefix">+91</span>
+                <input id="settings-mobile-val" class="form-inp" type="tel" placeholder="9876543210" maxlength="10">
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="saveProfileSettings()">Save Profile</button>
+          </div>
+        </div>
+
+        <!-- Password change -->
+        <div class="settings-card">
+          <div class="settings-card-head">
+            <span class="settings-card-head-icon">🔑</span>
+            <span class="settings-card-head-title">Change Password</span>
+          </div>
+          <div class="settings-card-body">
+            <div class="form-grp">
+              <label class="form-lbl">Current Password</label>
+              <div class="form-inp-password">
+                <input id="settings-cur-pass" class="form-inp" type="password" placeholder="Current password">
+                <button type="button" class="btn-eye" onclick="togglePassword('settings-cur-pass', this)">👁️</button>
+              </div>
+            </div>
+            <div class="form-grp">
+              <label class="form-lbl">New Password</label>
+              <div class="form-inp-password">
+                <input id="settings-new-pass" class="form-inp" type="password" placeholder="New password (min 6 chars)">
+                <button type="button" class="btn-eye" onclick="togglePassword('settings-new-pass', this)">👁️</button>
+              </div>
+            </div>
+            <div class="form-grp">
+              <label class="form-lbl">Confirm New Password</label>
+              <div class="form-inp-password">
+                <input id="settings-confirm-pass" class="form-inp" type="password" placeholder="Confirm new password">
+                <button type="button" class="btn-eye" onclick="togglePassword('settings-confirm-pass', this)">👁️</button>
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="savePasswordSettings()">Update Password</button>
+          </div>
+        </div>
+
+        <!-- WhatsApp number -->
+        <div class="settings-card">
+          <div class="settings-card-head">
+            <span class="settings-card-head-icon">💬</span>
+            <span class="settings-card-head-title">WhatsApp Order Number</span>
+          </div>
+          <div class="settings-card-body">
+            <p style="font-size:0.78rem;color:var(--muted2);line-height:1.6;">
+              To change the WhatsApp number that receives orders, edit the <code style="background:var(--surface2);padding:2px 6px;border-radius:2px;font-size:0.75rem;color:var(--aqua);">WHATSAPP_NUMBER</code> constant at the top of <code style="background:var(--surface2);padding:2px 6px;border-radius:2px;font-size:0.75rem;color:var(--aqua);">data.js</code> in the storefront folder.
+            </p>
+            <div style="background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:12px;font-size:0.78rem;color:var(--aqua);font-family:monospace;">
+              const WHATSAPP_NUMBER = '91<span style="color:var(--cream);">XXXXXXXXXX</span>';
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- Delivery Charge -->
+        <div class="settings-card">
+          <div class="settings-card-head">
+            <span class="settings-card-head-icon">🚚</span>
+            <span class="settings-card-head-title">Delivery Charge</span>
+          </div>
+          <div class="settings-card-body">
+            <p style="font-size:0.78rem;color:var(--muted2);line-height:1.6;margin-bottom:12px;">
+              Set the delivery fee charged to customers. Set amount to 0 for free delivery. Use "Free above" to make delivery free when the order exceeds a certain amount.
+            </p>
+            <div class="form-grp">
+              <label class="form-lbl">Delivery Charge (₹)</label>
+              <input id="settings-delivery-charge" class="form-inp" type="number" placeholder="0" min="0">
+            </div>
+            <div class="form-grp">
+              <label class="form-lbl">Free Delivery Above (₹) <span style="color:var(--muted2);font-size:0.62rem;">(0 = always charge)</span></label>
+              <input id="settings-delivery-free-above" class="form-inp" type="number" placeholder="0" min="0">
+            </div>
+            <button class="btn btn-primary" onclick="saveDeliverySettings()">Save Delivery Settings</button>
+          </div>
+        </div>
+
+        <!-- Danger zone -->
+        <div class="settings-card" style="border-color:rgba(224,122,101,0.2);">
+          <div class="settings-card-head" style="border-color:rgba(224,122,101,0.15);">
+            <span class="settings-card-head-icon">⚠️</span>
+            <span class="settings-card-head-title" style="color:var(--warn);">Danger Zone</span>
+          </div>
+          <div class="settings-card-body">
+            <p style="font-size:0.78rem;color:var(--muted2);line-height:1.6;margin-bottom:12px;">
+              Signing out will end your current session. You'll need to login again to access the admin panel.
+            </p>
+            <button class="btn btn-danger" onclick="doLogout()">Sign Out of Admin Panel</button>
+          </div>
+        </div>
+
+      </div><!-- /settings -->
+
+    </div><!-- /page-container -->
+  </div><!-- /main-wrap -->
+
+</div><!-- /admin-app -->
+
+<!-- ═══════════════════════════════════════════════════
+     TOAST
+     ═══════════════════════════════════════════════════ -->
+<div id="admin-toast"></div>
+
+<!-- ═══════════════════════════════════════════════════
+     MODAL: Add / Edit Product
+     ═══════════════════════════════════════════════════ -->
+<div id="prod-modal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title" id="prod-modal-title">Add Product</h3>
+      <button class="modal-close" onclick="closeProdModal()">✕</button>
+    </div>
+    <input type="hidden" id="prod-modal-id">
+
+    <div class="modal-form-grid">
+      <div class="form-grp" style="grid-column:1/-1;">
+        <label class="form-lbl">Product Name *</label>
+        <input id="prod-modal-name" class="form-inp" type="text" placeholder="e.g. Rohu">
+      </div>
+      <div class="form-grp" style="grid-column:1/-1;">
+        <label class="form-lbl">Subtitle / Description</label>
+        <input id="prod-modal-sub" class="form-inp" type="text" placeholder="e.g. River Fish">
+      </div>
+      <div class="form-grp">
+        <label class="form-lbl">Price per kg (₹) *</label>
+        <input id="prod-modal-price" class="form-inp" type="number" placeholder="220" min="1">
+      </div>
+      <div class="form-grp" style="grid-column:1/-1;">
+        <label class="form-lbl">Product Photo</label>
+        <div id="prod-img-upload-area" onclick="document.getElementById('prod-modal-img-file').click()"
+          style="border:1.5px dashed var(--border);border-radius:4px;cursor:pointer;overflow:hidden;transition:border-color 0.2s;background:var(--surface2);min-height:120px;display:flex;align-items:center;justify-content:center;position:relative;"
+          onmouseover="this.style.borderColor='var(--aqua)'" onmouseout="this.style.borderColor='var(--border)'">
+          <img id="prod-modal-img-preview" src="" alt=""
+            style="display:none;width:100%;max-height:180px;object-fit:cover;" />
+          <div id="prod-img-upload-placeholder" style="text-align:center;padding:20px;color:var(--muted);font-size:0.75rem;letter-spacing:0.06em;">
+            <div style="font-size:2rem;margin-bottom:6px;">📷</div>
+            <div>Tap to upload a photo</div>
+            <div style="font-size:0.65rem;margin-top:4px;color:var(--muted2);">JPG, PNG, WEBP · Max 2MB</div>
+          </div>
+        </div>
+        <input type="file" id="prod-modal-img-file" accept="image/*" style="display:none;" onchange="handleImageUpload(this)">
+        <button type="button" id="prod-img-remove-btn" onclick="removeProductImage()"
+          style="display:none;margin-top:6px;font-size:0.68rem;color:var(--warn);background:none;border:none;cursor:pointer;padding:0;letter-spacing:0.06em;">
+          ✕ Remove photo
+        </button>
+      </div>
+      <div class="form-grp">
+        <label class="form-lbl">Emoji Icon <span style="color:var(--muted2);font-size:0.62rem;">(used if no photo)</span></label>
+        <input id="prod-modal-emoji" class="form-inp" type="text" placeholder="🐟" maxlength="4">
+      </div>
+      <div class="form-grp" style="grid-column:1/-1;">
+        <label class="form-lbl">Category</label>
+        <select id="prod-modal-cat" class="form-inp">
+          <option value="fresh">Fresh Fish</option>
+          <option value="sea">Sea Fish</option>
+          <option value="prawns">Prawns</option>
+          <option value="crabs">Crabs</option>
+        </select>
+      </div>
+      <div class="form-grp" style="display:flex;align-items:center;gap:12px;">
+        <label class="toggle">
+          <input type="checkbox" id="prod-modal-avail" checked>
+          <div class="toggle-track"></div>
+        </label>
+        <span style="font-size:0.8rem;color:var(--cream);">Available</span>
+      </div>
+      <div class="form-grp" style="display:flex;align-items:center;gap:12px;">
+        <label class="toggle">
+          <input type="checkbox" id="prod-modal-featured">
+          <div class="toggle-track"></div>
+        </label>
+        <span style="font-size:0.8rem;color:var(--cream);">Featured on Home</span>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeProdModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveProdModal()">Save Product</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     MODAL: Delete Confirm
+     ═══════════════════════════════════════════════════ -->
+<div id="delete-modal" class="modal-overlay">
+  <div class="modal" style="max-width:380px;">
+    <div class="modal-header">
+      <h3 class="modal-title">Delete Product</h3>
+      <button class="modal-close" onclick="closeDeleteModal()">✕</button>
+    </div>
+    <p id="delete-modal-msg" style="font-size:0.85rem;color:var(--muted2);line-height:1.6;"></p>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeDeleteModal()">Cancel</button>
+      <button class="btn btn-danger" onclick="doDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     MODAL: Order Detail
+     ═══════════════════════════════════════════════════ -->
+<div id="order-detail-modal" class="modal-overlay">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-header">
+      <h3 class="modal-title">Order Detail</h3>
+      <button class="modal-close" onclick="closeOrderDetail()">✕</button>
+    </div>
+    <div id="order-detail-content"></div>
+  </div>
+</div>
+
+  <!-- Firebase (Compatibility Mode) -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBuO2qcc1FC6emeDakW0t_axK5UidrxpgU",
+      authDomain: "freshcatch-5335b.firebaseapp.com",
+      projectId: "freshcatch-5335b",
+      storageBucket: "freshcatch-5335b.firebasestorage.app",
+      messagingSenderId: "178320052496",
+      appId: "1:178320052496:web:6d99a14de13fbf0a029595",
+      measurementId: "G-BQ8H0V83GX"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <!-- Custom Scripts -->
+  <script src="js/store.js"></script>
+  <script src="js/admin.js"></script>
+
+</body>
+</html>
